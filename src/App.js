@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import React from 'react';
 import ContactForm from './components/ContactForm/ContactForm';
 import Filter from './components/Filter/Filter';
@@ -32,6 +32,19 @@ const App = () => {
   const filteredContacts = newContacts.filter((newContact) =>
     newContact.name.toLowerCase().includes(filter.toLowerCase())
   );
+
+  useEffect(() => {
+    const todos = localStorage.getItem('newContacts');
+    const parsedTodos = JSON.parse(todos);
+
+    if (parsedTodos) {
+      setNewContacts(parsedTodos);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('newContacts', JSON.stringify(newContacts));
+  }, [newContacts]);
 
   return (
     <>
